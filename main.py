@@ -1,20 +1,24 @@
 #-*- coding: utf-8 -*-
 
 import urllib
+import tele_api
 from bs4 import BeautifulSoup
 
 def main():
 
-    for id in range(828,830):
+    for id in range(825,826):
 
         url='http://cs.gnu.ac.kr/sub02/06.php?id='+str(id)+'&mode=read'
         html = urllib.urlopen(url)
         soup = BeautifulSoup(html,'html5lib',from_encoding='utf-8')
 
-        title_list=soup.find_all('td','tdleft')
+        title_list=soup.find_all\
+            ('td','tdleft')
         noti_title=parse_title( title_list)
 
-        print id,'번째 공지사항: ',noti_title
+        #print id,'번째 공지사항: ',noti_title
+        tele=tele_api.Telegram()
+        tele.notification(noti_title,url)
 
 def parse_title(target):
     source=str(target[0]).decode('utf=8')
