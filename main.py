@@ -6,8 +6,12 @@ from bs4 import BeautifulSoup
 import time
 
 def main():
-    id = 828
-    interval=5
+    interval = 5
+    try:
+        id = save_load(rw='r')
+    except:
+        #Failsafe
+        id=830
 
     while True:
         url='http://cs.gnu.ac.kr/sub02/06.php?id='+str(id)+'&mode=read'
@@ -27,6 +31,7 @@ def main():
             tele=tele_api.Telegram()
             tele.notification(noti_title,url)
             id+=1
+            save_load(id,'w')
 
 def parse_title(target):
     source=str(target[0]).decode('utf=8')
@@ -49,6 +54,17 @@ def parse_title(target):
     else:
         return source[start:end]
 
+def save_load(para=0,rw=''):
+    if rw=='w' and para !=0:
+        file=open('last_id','w')
+        file.write(str(para))
+
+    elif rw=='r':
+        file=open('last_id','r')
+        loaded_value=file.read()
+        return int(loaded_value)
+    else:
+        print 'ERROR: Wrong parameter.'
 
 if __name__=='__main__':
     main()
