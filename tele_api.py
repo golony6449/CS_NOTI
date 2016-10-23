@@ -1,9 +1,16 @@
 import urllib2
 import requests
+import os
 
 url='https://api.telegram.org/bot'
-api_key='257446028:AAGgXliWqKyOXoGQ8oFm6rmyiB4YVdZ-ovA'
 ch_id='chat_id=@CS_NOTI'
+try:
+    path=os.path.dirname( os.path.abspath( __file__ ) )
+    api_key = open(path+'/source/api_key', 'r').read()
+
+except:
+    print 'ERROR: No API_key. Please Check Again'
+    exit()
 
 class Telegram():
 

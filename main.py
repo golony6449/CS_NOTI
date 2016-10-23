@@ -4,6 +4,7 @@ import urllib
 import tele_api
 from bs4 import BeautifulSoup
 import time
+import os
 
 def main():
     interval = 5
@@ -55,12 +56,13 @@ def parse_title(target):
         return source[start:end]
 
 def save_load(para=0,rw=''):
+    path=path=os.path.dirname( os.path.abspath( __file__ ) )
     if rw=='w' and para !=0:
-        file=open('last_id','w')
+        file=open(path+'last_id','w')
         file.write(str(para))
 
     elif rw=='r':
-        file=open('last_id','r')
+        file=open(path+'last_id','r')
         loaded_value=file.read()
         return int(loaded_value)
     else:
