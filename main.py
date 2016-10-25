@@ -59,11 +59,11 @@ def parse_title(target):
 def save_load(para=0,rw=''):
     path=path=os.path.dirname( os.path.abspath( __file__ ) )
     if rw=='w' and para !=0:
-        file=open(path+'\last_id','w')
+        file=open(path+'\source\last_id','w')
         file.write(str(para))
 
     elif rw=='r':
-        file=open(path+'\last_id','r')
+        file=open(path+'\source\last_id','r')
         loaded_value=file.read()
         return int(loaded_value)
     else:
