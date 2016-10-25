@@ -32,10 +32,11 @@ def main():
             tele=tele_api.Telegram()
             tele.notification(noti_title,url)
             id+=1
+            print 'send!'
             save_load(id,'w')
 
 def parse_title(target):
-    source=str(target[0]).decode('utf=8')
+    source=str(target[0]).decode('utf-8')
     ouput=''
     start=0
     end=0
@@ -58,11 +59,11 @@ def parse_title(target):
 def save_load(para=0,rw=''):
     path=path=os.path.dirname( os.path.abspath( __file__ ) )
     if rw=='w' and para !=0:
-        file=open(path+'last_id','w')
+        file=open(path+'\last_id','w')
         file.write(str(para))
 
     elif rw=='r':
-        file=open(path+'last_id','r')
+        file=open(path+'\last_id','r')
         loaded_value=file.read()
         return int(loaded_value)
     else:
