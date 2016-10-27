@@ -12,14 +12,14 @@ def main():
         id = save_load(rw='r')
     except:
         #Failsafe
-        id=830
+        id=3270
 
     while True:
-        url='http://cs.gnu.ac.kr/sub02/06.php?id='+str(id)+'&mode=read'
+        url='http://www.gnu.ac.kr/program/multipleboard/BoardView.jsp?groupNo=10026&boardNo='+str(id)
         html = urllib.urlopen(url)
-        soup = BeautifulSoup(html,'html5lib',from_encoding='utf-8')
+        soup = BeautifulSoup(html,'html5lib')
 
-        title_list=soup.find_all('td','tdleft')
+        title_list=soup.find_all('div','title')
         noti_title=parse_title(title_list)
 
         if noti_title==False:
@@ -44,11 +44,11 @@ def parse_title(target):
     for pointer in range(len(source)-1):
         if source[pointer] == '>':
             start = pointer+1
-        try:
-            if source[pointer] == '<' :
-                end = pointer
-        except:
-            pass
+
+    for pointer in range(start,len(source)-1):
+        if source[pointer] == '<' :
+            end = pointer
+            break
 
 #Check NULL contents
     if start==end:
