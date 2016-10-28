@@ -20,6 +20,7 @@ def main():
         soup = BeautifulSoup(html,'html5lib')
 
         title_list=soup.find_all('div','title')
+
         noti_title=parse_title(title_list)
 
         if noti_title==False:
@@ -36,12 +37,15 @@ def main():
             save_load(id,'w')
 
 def parse_title(target):
+    if len(target)==0:
+        return False
+
     source=str(target[0]).decode('utf-8')
     ouput=''
     start=0
     end=0
 
-    for pointer in range(len(source)-1):
+    for pointer in range(50):
         if source[pointer] == '>':
             start = pointer+1
 
