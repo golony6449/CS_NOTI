@@ -5,6 +5,7 @@ import tele_api
 from bs4 import BeautifulSoup
 import time
 import os
+from datetime import datetime
 
 def main():
     interval = 5
@@ -24,7 +25,7 @@ def main():
 
         if noti_title==False:
             #test
-            print 'ERROR: There is no notification. ID:',id
+            print 'NOTE: There is no notification yet. ID:',id,datetime.now()
             time.sleep(interval)
         else:
             #test
