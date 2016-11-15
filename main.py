@@ -17,24 +17,28 @@ def main():
 
     while True:
         url='http://cs.gnu.ac.kr/sub02/06.php?id='+str(id)+'&mode=read'
-        html = urllib.urlopen(url)
-        soup = BeautifulSoup(html,'html5lib',from_encoding='utf-8')
+        try:
+            html = urllib.urlopen(url)
+            soup = BeautifulSoup(html,'html5lib',from_encoding='utf-8')
 
-        title_list=soup.find_all('td','tdleft')
-        noti_title=parse_title(title_list)
+            title_list=soup.find_all('td','tdleft')
+            noti_title=parse_title(title_list)
 
-        if noti_title==False:
-            #test
-            print 'NOTE: There is no notification yet. ID:',id,datetime.now()
-            time.sleep(interval)
-        else:
-            #test
-            #print id,'번째 공지사항: ',noti_title
-            tele=tele_api.Telegram()
-            tele.notification(noti_title,url)
-            id+=1
-            print 'send!'
-            save_load(id,'w')
+            if noti_title==False:
+                #test
+                print 'NOTE: There is no notification yet. ID:',id,datetime.now()
+                time.sleep(interval)
+            else:
+                #test
+                #print id,'번째 공지사항: ',noti_title
+                tele=tele_api.Telegram()
+                tele.notification(noti_title,url)
+                id+=1
+                print 'send!'
+                save_load(id,'w')
+        except:
+            print 'WARNING: ERROR OCCURED on network', datetime.now()
+            time.sleep(10)
 
 def parse_title(target):
     source=str(target[0]).decode('utf-8')
