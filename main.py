@@ -17,25 +17,29 @@ def main():
 
     while True:
         url='http://www.gnu.ac.kr/program/multipleboard/BoardView.jsp?groupNo=10026&boardNo='+str(id)
-        html = urllib.urlopen(url)
-        soup = BeautifulSoup(html,'html5lib')
+        try:
+            html = urllib.urlopen(url)
+            soup = BeautifulSoup(html,'html5lib')
 
-        title_list=soup.find_all('div','title')
+            title_list=soup.find_all('div','title')
 
-        noti_title=parse_title(title_list)
+            noti_title=parse_title(title_list)
 
-        if noti_title==False:
-            #test
-            print 'NOTE: There is no notification. ID:',id,datetime.now()
-            time.sleep(interval)
-        else:
-            #test
-            #print id,'번째 공지사항: ',noti_title
-            tele=tele_api.Telegram()
-            tele.notification(noti_title,url)
-            id+=1
-            print 'send!'
-            save_load(id,'w')
+            if noti_title==False:
+                #test
+                print 'NOTE: There is no notification. ID:',id,datetime.now()
+                time.sleep(interval)
+            else:
+                #test
+                #print id,'번째 공지사항: ',noti_title
+                tele=tele_api.Telegram()
+                tele.notification(noti_title,url)
+                id+=1
+                print 'send!'
+                save_load(id,'w')
+        except:
+            print 'WARNING: ERROR OCCURED', datetime.now()
+            time.sleep(10)
 
 def parse_title(target):
     if len(target)==0:
