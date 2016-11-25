@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import time
 import os
 from datetime import datetime
+import short_url
 
 def main():
     interval = 5
@@ -32,8 +33,9 @@ def main():
             else:
                 #test
                 #print id,'번째 공지사항: ',noti_title
+                short=short_url.makeShort(url)
                 tele=tele_api.Telegram()
-                tele.notification(noti_title,url)
+                tele.notification(noti_title,short)
                 id+=1
                 print 'send!'
                 save_load(id,'w')
