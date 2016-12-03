@@ -99,11 +99,10 @@ def parse_title(target,is_gnu=False):
     for pointer in range(len(source)-1):
         if source[pointer] == '>':
             start = pointer+1
-        try:
-            if source[pointer] == '<' :
-                end = pointer
-        except:
-            pass
+    for pointer in range(start,len(source)-1):
+        if source[pointer] == '<' :
+            end = pointer
+            break
 
 #Check NULL contents
     if start==end or len(source[start:end])<8:
