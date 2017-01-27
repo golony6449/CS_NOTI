@@ -16,9 +16,8 @@ def main():
         cs_id=save_load(rw='r',mode='cs')
         gnu_id=save_load(rw='r',mode='gnu')
     except:
-        #Failsafe
-        cs_id=830
-        gnu_id=3320
+        print('ERROR: Could not find last notification ID')
+        exit()
 
     if option=='all':
         while True:
@@ -37,7 +36,7 @@ def main():
         print 'ERROR: Incorrect Mode Please check again'
         exit()
 
-def cs_noti(id):
+def cs_noti(id,redirect=False):
     url = 'http://cs.gnu.ac.kr/sub02/06.php?id=' + str(id) + '&mode=read'
     try:
         html = urllib.urlopen(url)
@@ -48,11 +47,16 @@ def cs_noti(id):
     except:
         print 'CS_NOTI: ERROR OCCURED during scraping', datetime.now()
         time.sleep(10)
+        return id
         cs_noti(id)
         noti_title=False
 
     if noti_title == False:
         print 'CS_NOTI: There is no notification. ID:', id, datetime.now()
+        if redirect==False:
+            print 'Checking another ID'
+            id=cs_noti(id+1,redirect=True)
+
     else:
         short = short_url.makeShort(url)
         tele = tele_api.Telegram('@CS_NOTI')
@@ -62,7 +66,7 @@ def cs_noti(id):
         save_load(id, 'w','cs')
     return id
 
-def gnu_noti(id):
+def gnu_noti(id,redirect=False):
     url = 'http://www.gnu.ac.kr/program/multipleboard/BoardView.jsp?groupNo=10026&boardNo=' + str(id)
     try:
         html = urllib.urlopen(url)
@@ -78,6 +82,9 @@ def gnu_noti(id):
     if noti_title == False:
         # test
         print 'GNU_NOTI: There is no notification. ID:', id, datetime.now()
+        if redirect==False:
+            print 'Checking another ID'
+            id=gnu_noti(id+1,redirect=True)
     else:
         short = short_url.makeShort(url)
         tele = tele_api.Telegram('@GNU_NOTI')
