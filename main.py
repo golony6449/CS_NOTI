@@ -55,7 +55,7 @@ def cs_noti(id,redirect=False):
         print 'CS_NOTI: There is no notification. ID:', id, datetime.now()
         if redirect==False:
             print 'Checking another ID'
-            id=cs_noti(id+1,redirect=True)
+            id=(cs_noti(id+1,redirect=True))-1
 
     else:
         short = short_url.makeShort(url)
@@ -84,7 +84,7 @@ def gnu_noti(id,redirect=False):
         print 'GNU_NOTI: There is no notification. ID:', id, datetime.now()
         if redirect==False:
             print 'Checking another ID'
-            id=gnu_noti(id+1,redirect=True)
+            id=(gnu_noti(id+1,redirect=True))-1
     else:
         short = short_url.makeShort(url)
         tele = tele_api.Telegram('@GNU_NOTI')
