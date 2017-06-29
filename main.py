@@ -72,7 +72,7 @@ def gnu_noti(id,redirect=False):
         html = urllib.urlopen(url)
         soup = BeautifulSoup(html, 'html5lib')
         title_list = soup.find_all('h3')
-        noti_title = parse_title(title_list,is_gnu=True)
+        noti_title = '[HOT NEWS]\n' + parse_title(title_list,is_gnu=True)
     except:
         print 'GNU_NOTI: ERROR OCCURED during scraping', datetime.now()
         time.sleep(10)
