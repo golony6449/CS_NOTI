@@ -76,6 +76,7 @@ def gnu_noti(id,redirect=False):
     except:
         print 'GNU_NOTI: ERROR OCCURED during scraping', datetime.now()
         time.sleep(10)
+        return
         gnu_noti(id)
         noti_title=False
 
