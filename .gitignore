@@ -141,3 +141,5 @@ $RECYCLE.BIN/
 *.xml
 last_id
 source/api_key
+p_cs_noti/
+source/

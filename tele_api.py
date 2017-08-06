@@ -21,8 +21,6 @@ class Telegram():
         socket=requests.post(url=url+api_key+'/sendMessage',data=data)
 
     def notification(self,text='',path=''):
-        #self.send(text)
-        #self.send(path)
         self.send(text+'\n'+path)
 
     def test(self):
