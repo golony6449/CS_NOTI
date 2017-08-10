@@ -1,4 +1,4 @@
-import urllib2
+# import urllib2
 import requests
 import os
 
@@ -9,7 +9,7 @@ try:
     api_key = open(path+'/source/api_key', 'r').read()
 
 except:
-    print 'ERROR: No API_key. Please Check Again'
+    print ('ERROR: No API_key. Please Check Again')
     exit()
 
 class Telegram():
@@ -23,8 +23,8 @@ class Telegram():
     def notification(self,text='',path=''):
         self.send(text+'\n'+path)
 
-    def test(self):
-        req=urllib2.Request(url+api_key+'/sendMessage')
-        req.add_data(self.ch_id+'&text=''test''')
-        socket=urllib2.urlopen(req)
-        print socket.read(300)
+    # def test(self):
+    #     req=urllib2.Request(url+api_key+'/sendMessage')
+    #     req.add_data(self.ch_id+'&text=''test''')
+    #     socket=urllib2.urlopen(req)
+    #     print (socket.read(300))
