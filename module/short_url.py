@@ -1,9 +1,14 @@
 import requests
+from os.path import dirname
 import os
 
 def load():
-    path=path=os.path.dirname( os.path.abspath( __file__ ) )
-    file=open(path+'/source/naver','r')
+    path=dirname(dirname(os.path.abspath( __file__ )))
+    try:
+        file = open(path + '/source/naver', 'r')
+    except:
+        print('ERROR: No Naver API_key. Please Check Again')
+
     loaded_value=file.readlines()
     ID=loaded_value[0].strip()
     SECRET=loaded_value[1].strip()

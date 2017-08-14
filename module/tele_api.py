@@ -1,15 +1,15 @@
 # import urllib2
 import requests
-import os
+from os import path
 
 url='https://api.telegram.org/bot'
 
 try:
-    path=os.path.dirname( os.path.abspath( __file__ ) )
+    path=path.dirname(path.dirname(path.abspath( __file__ )))
     api_key = open(path+'/source/api_key', 'r').read()
 
 except:
-    print ('ERROR: No API_key. Please Check Again')
+    print ('ERROR: No Telegram API_key. Please Check Again')
     exit()
 
 class Telegram():
