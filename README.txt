@@ -21,3 +21,9 @@ Parameter:
 cs:CS_NOTI will be activated
 gnu:GNU_NOTI will be activated
 all; All service will be activated (same as cs gnu)
+
+## Requirement
+requests
+html5lib
+beautifulsoup4
+PyQt5
