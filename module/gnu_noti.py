@@ -12,6 +12,7 @@ class gnuNotification(base.baseNotifier):
     def __init__(self):
         super().__init__()
 
+        self.mode = 'GNU'
         self.load_id()
 
     def run(self):
@@ -19,6 +20,7 @@ class gnuNotification(base.baseNotifier):
         try:
             html = urllib.request.urlopen(url)
             soup = BeautifulSoup(html, 'html5lib')
+            # title_list = soup.select_one('.title) # selector option (testing)
             title_list = soup.find_all('h3')
         except:
             print('GNU_NOTI: ERROR OCCURED during scraping', datetime.now())

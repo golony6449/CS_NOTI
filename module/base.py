@@ -11,14 +11,19 @@ class baseNotifier:
         self.checkOnemore = False
 
     def parse_title(self, target, findAllIndex):
+        if self.mode=='CS':
+            para=0
+        else:
+            para=1
+
         try:
-            source = target[findAllIndex]  #in cs_noti, ERROR occur here. When There is NO new notice.
+            source = target[findAllIndex]
         except:
             return False
         # print(source.contents[1])  #test
 
         try:
-            return source.contents[1]   #in agency,gnu_noti, ERROR occur. When There is No new notice.
+            return source.contents[para]   #in agency,gnu_noti, ERROR occur. When There is No new notice.
         except:
             return False
 

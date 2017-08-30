@@ -12,6 +12,7 @@ class agencyNotification(base.baseNotifier):
     def __init__(self):
         super().__init__()
 
+        self.mode='Agency'
         self.load_id()
 
     def run(self):
