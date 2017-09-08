@@ -22,10 +22,17 @@ class baseNotifier:
             return False
         # print(source.contents[1])  #test
 
-        try:
-            return source.contents[para]   #in agency,gnu_noti, ERROR occur. When There is No new notice.
-        except:
-            return False
+        if para==1:
+            try:
+                return source.contents[para]   #in agency,gnu_noti, ERROR occur. When There is No new notice.
+            except:
+                return False
+
+        else:
+            try:
+                return source.text  # for cs_noti
+            except:
+                return False
 
         # legacy code
         # ouput = ''
