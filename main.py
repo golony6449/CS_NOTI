@@ -3,7 +3,6 @@ import time
 
 from module import cs_noti, gnu_noti, agency_noti
 
-
 def main():
     interval = 10
     option = mode_select()
