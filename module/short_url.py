@@ -21,5 +21,6 @@ def makeShort(target):
     data = {'url': target}
 
     maker=requests.post(url=naver,data=data,headers=header)
+    maker.close()
     output=maker.json()['result']['url']
     return output

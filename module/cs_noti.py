@@ -29,6 +29,7 @@ class csNotification(base.baseNotifier):
             print('CS_NOTI: ERROR OCCURED during scraping', datetime.now())
             return
 
+        html.close()
         titleList=self.findNotification(soup)
 
         if titleList == False:

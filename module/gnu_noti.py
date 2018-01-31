@@ -26,6 +26,7 @@ class gnuNotification(base.baseNotifier):
             print('GNU_NOTI: ERROR OCCURED during scraping', datetime.now())
             return
 
+        html.close()
         noti_title = self.parse_title(title_list, findAllIndex=3)  # at HOT NEWS, Index is 3.
 
         if noti_title == False:
