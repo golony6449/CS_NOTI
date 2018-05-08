@@ -14,6 +14,8 @@ This program will get information from cs.gnu.ac.kr,gnu.ac.kr and send to your p
 
 5. last_agency: Save last post's if of gnu agency noti for re-running this program
 
+6. naver: Save Naver short URL api key
+
 ### HOW TO USE
 1. run main.py on terminal with parameter - Example: python main.py gnu cs
 
