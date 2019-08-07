@@ -1,9 +1,8 @@
-from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import sys
 
-from mainWin import Ui_MainWindow
-import module.logic as logic
+from gui.mainWin import Ui_MainWindow
+import gui.logic as logic
 
 class MainWin(QMainWindow,Ui_MainWindow):
     def __init__(self,interval=10):
