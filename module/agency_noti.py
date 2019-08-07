@@ -42,9 +42,9 @@ class agencyNotification(base.baseNotifier):
             self.save_id()
 
     def save_id(self):
-        path = self.root + '\source\last_agency'
+        path = self.root + '/source/last_agency'
         super().save(self.id, path)
 
     def load_id(self):
-        path = self.root + '\source\last_agency'
+        path = self.root + '/source/last_agency'
         self.id = super().load(path)

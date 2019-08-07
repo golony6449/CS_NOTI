@@ -82,17 +82,17 @@ class csNotification(base.baseNotifier):
         self.save_id()
 
     def save_id(self):
-        path = self.root + '\source\last_cs'
+        path = self.root + '/source/last_cs'
         super().save(self.id, path)
 
-        path = self.root + '\source\last_cs_notice'
+        path = self.root + '/source/last_cs_notice'
         super().save(self.noticeId, path)
 
     def load_id(self):
-        path = self.root + '\source\last_cs'
+        path = self.root + '/source/last_cs'
         self.id = super().load(path)
 
-        path = self.root + '\source\last_cs_notice'
+        path = self.root + '/source/last_cs_notice'
         self.noticeId = super().load(path)
 
     def extractId(self,titleList):

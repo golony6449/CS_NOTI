@@ -43,9 +43,9 @@ class gnuNotification(base.baseNotifier):
             self.save_id()
 
     def save_id(self):
-        path = self.root + '\source\last_gnu'
+        path = self.root + '/source/last_gnu'
         super().save(self.id, path)
 
     def load_id(self):
-        path = self.root + '\source\last_gnu'
+        path = self.root + '/source/last_gnu'
         self.id = super().load(path)
