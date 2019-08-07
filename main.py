@@ -4,6 +4,8 @@ import time
 from module import cs_noti, gnu_noti, agency_noti
 
 def main():
+    init_secret()
+
     interval = 10
     option = mode_select()
 
@@ -12,8 +14,9 @@ def main():
             gnuModule = gnu_noti.gnuNotification()
             gnuModule.run()
 
-            csModule = cs_noti.csNotification()
-            csModule.run()
+            # TODO: Bug fix후 주석해제
+            # csModule = cs_noti.csNotification()
+            # csModule.run()
 
             agencyModule = agency_noti.agencyNotification()
             agencyModule.run()
@@ -67,6 +70,34 @@ def mode_select():
     # This case is occured when user enter incorrect option
     print('ERROR:Please Enter Correct Option')
     exit()
+
+
+def init_secret():
+    import os
+
+    try:
+        _ = os.environ["NAVER_ID"]
+        _ = os.environ["NAVER_SECRET"]
+    except KeyError:
+        try:
+            path = os.path.dirname(os.path.dirname(os.path.abspath( __file__ )))
+            file = open(path + "/source/naver", "r")
+            file.close()
+        except FileNotFoundError:
+            print("ERROR: Could not found NAVER Secret")
+            exit(1)
+
+    try:
+        _ = os.environ["TELEGRAM_API"]
+
+    except KeyError:
+        try:
+            path = os.path.dirname(os.path.dirname(os.path.abspath( __file__ )))
+            file = open(path + "/source/api_key")
+            file.close()
+        except FileNotFoundError:
+            print("ERROR: Could not fount TELEGRAM API Secret")
+            exit(1)
 
 
 if __name__ == '__main__':
