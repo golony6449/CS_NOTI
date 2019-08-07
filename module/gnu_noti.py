@@ -1,5 +1,6 @@
 import urllib.request
 from datetime import datetime
+import os
 
 from module import base
 from module import short_url
@@ -14,6 +15,8 @@ class gnuNotification(base.baseNotifier):
 
         self.mode = 'GNU'
         self.load_id()
+        self.channel = os.environ["GNU_CHANNEL"]
+
 
     def run(self):
         url = 'http://www.gnu.ac.kr/program/multipleboard/BoardView.jsp?groupNo=10026&boardNo=' + str(self.id)
@@ -36,7 +39,7 @@ class gnuNotification(base.baseNotifier):
         else:
             noti_title = '[HOT NEWS]\n' + noti_title
             short = short_url.makeShort(url)
-            tele = tele_api.Telegram('@Testing77') #Should Edit at live server
+            tele = tele_api.Telegram(self.channel)
             tele.notification(noti_title, short)
             print('GNU_NOTI: NEW NOTIFICATION. ID:', self.id)
             self.id += 1

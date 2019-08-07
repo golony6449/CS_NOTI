@@ -1,6 +1,7 @@
 import time
 import urllib.request
 from datetime import datetime
+import os
 
 from module import base
 from module import short_url
@@ -15,6 +16,7 @@ class csNotification(base.baseNotifier):
 
         self.mode = 'CS'
         self.load_id()
+        self.channel = os.environ["CS_CHANNEL"]
 
     def run(self):
         url = 'http://cs.gnu.ac.kr/csadmin/sub.do?robot=Y&mCode=MN0038'
@@ -41,7 +43,7 @@ class csNotification(base.baseNotifier):
                 #print(title['title'])
                 short=short_url.makeShort(url+'&'+title['url'][1:]) #String slice for delete '?' charactor
 
-                tele = tele_api.Telegram('@Testing77')  #Should Edit at live server
+                tele = tele_api.Telegram(self.channel)
                 tele.notification(title['title'], short)
                 print('CS_NOTI: NEW NOTIFICATION.')
                 self.save_id()

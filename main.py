@@ -76,6 +76,13 @@ def init_secret():
     import os
 
     try:
+        _ = os.environ["GNU_CHANNEL"]
+        _ = os.environ["CS_CHANNEL"]
+    except KeyError:
+        print("ERROR: Could not found TELEGRAM CHANNEL INFO")
+        exit(1)
+
+    try:
         _ = os.environ["NAVER_ID"]
         _ = os.environ["NAVER_SECRET"]
     except KeyError:
