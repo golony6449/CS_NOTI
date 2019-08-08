@@ -14,9 +14,9 @@ class gnuNotification(base.baseNotifier):
         super().__init__()
 
         self.mode = 'GNU'
+        self.id = None
         self.load_id()
         self.channel = os.environ["GNU_CHANNEL"]
-
 
     def run(self):
         url = 'http://www.gnu.ac.kr/program/multipleboard/BoardView.jsp?groupNo=10026&boardNo=' + str(self.id)
@@ -25,14 +25,19 @@ class gnuNotification(base.baseNotifier):
             soup = BeautifulSoup(html, 'html5lib')
             # title_list = soup.select_one('.title) # selector option (testing)
             title_list = soup.find_all('h3')
+
+        except urllib.error.HTTPError:
+            print('GNU_NOTI: ERROR OCCURRED during scraping (Network)', datetime.now())
+            return
+
         except:
-            print('GNU_NOTI: ERROR OCCURED during scraping', datetime.now())
+            print('GNU_NOTI: ERROR OCCURRED during scraping', datetime.now())
             return
 
         html.close()
         noti_title = self.parse_title(title_list, findAllIndex=3)  # at HOT NEWS, Index is 3.
 
-        if noti_title == False:
+        if noti_title is False:
             print('GNU_NOTI: There is no notification. ID:', self.id, datetime.now())
             self.check()
 

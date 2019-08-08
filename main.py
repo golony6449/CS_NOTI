@@ -3,6 +3,7 @@ import time
 
 from module import cs_noti, gnu_noti, agency_noti
 
+
 def main():
     init_secret()
 
@@ -47,6 +48,8 @@ def mode_select():
         print('ERROR: There is no Parameter. Please check README')
     # mode=[all,cs,gnu,agency]
     mode = [False, False, False, False]
+
+    print(sys.argv)
     for a in sys.argv:
         if a == 'all':
             mode[0] = True
@@ -67,7 +70,7 @@ def mode_select():
         return 'gnu'
     elif mode[3] == True:
         return 'agency'
-    # This case is occured when user enter incorrect option
+    # This case is occurred when user enter incorrect option
     print('ERROR:Please Enter Correct Option')
     exit()
 

@@ -25,57 +25,57 @@ class csNotification(base.baseNotifier):
             soup = BeautifulSoup(html, 'html5lib')
 
         except urllib.error.HTTPError:
-            print('CS_NOTI: ERROR OCCURED during scraping (Network)', datetime.now())
+            print('CS_NOTI: ERROR OCCURRED during scraping (Network)', datetime.now())
             return
         except:
-            print('CS_NOTI: ERROR OCCURED during scraping', datetime.now())
+            print('CS_NOTI: ERROR OCCURRED during scraping', datetime.now())
             return
 
         html.close()
-        titleList=self.findNotification(soup)
+        titleList = self.findNotification(soup)
 
-        if titleList == False:
+        if titleList is False:
             print('CS_NOTI: There is no notification.', datetime.now())
-            #self.check()
+            # self.check()
 
         else:
             for title in titleList:
-                #print(title['title'])
-                short=short_url.makeShort(url+'&'+title['url'][1:]) #String slice for delete '?' charactor
+                # print(title['title'])
+                short=short_url.makeShort(url+'&'+title['url'][1:]) # String slice for delete '?' character
 
                 tele = tele_api.Telegram(self.channel)
                 tele.notification(title['title'], short)
                 print('CS_NOTI: NEW NOTIFICATION.')
                 self.save_id()
 
-    def findNotification(self,target):
-        notiList=list()
+    def findNotification(self, target):
+        notiList = list()
         title_list = target.find_all('tr', class_='isnotice')
 
         if len(title_list) > self.noticeId:
             for i in range(len(title_list) - self.noticeId):
-                #print(title_list[i].contents[3].contents[1].attrs['title'])
-                notiList.append({'title':title_list[i].contents[3].contents[1].attrs['title'],
-                                 'url':title_list[i].contents[3].contents[1].attrs['href']})
+                # print(title_list[i].contents[3].contents[1].attrs['title'])
+                notiList.append({'title': title_list[i].contents[3].contents[1].attrs['title'],
+                                 'url': title_list[i].contents[3].contents[1].attrs['href']})
 
-            self.noticeId = len(title_list) ##Update ID
+            self.noticeId = len(title_list)     # Update ID
 
         title_list = target.find_all('tr', class_='child_1')
-        newestNumber=int(title_list[0].contents[1].text)
+        newestNumber = int(title_list[0].contents[1].text)
 
         if newestNumber > self.id:
             for i in range(newestNumber - self.id):
-                #print(title_list[i].contents[3].contents[1].attrs['title'])
-                notiList.append({'title':title_list[i].contents[3].contents[1].attrs['title'],
-                                 'url':title_list[i].contents[3].contents[1].attrs['href']})
-            self.id = newestNumber  ##Update ID
-        if len(notiList)==0:
+                # print(title_list[i].contents[3].contents[1].attrs['title'])
+                notiList.append({'title': title_list[i].contents[3].contents[1].attrs['title'],
+                                 'url': title_list[i].contents[3].contents[1].attrs['href']})
+            self.id = newestNumber  # Update ID
+        if len(notiList) == 0:
             return False
         else:
             return notiList
 
     def send(self, title, url):
-        tele = tele_api.Telegram('@Testing77')  #Should Edit at live server
+        tele = tele_api.Telegram('@Testing77')  # Should Edit at live server
 
         short = short_url.makeShort(url)
         tele.notification(title[i], short)
@@ -97,13 +97,13 @@ class csNotification(base.baseNotifier):
         path = self.root + '/source/last_cs_notice'
         self.noticeId = super().load(path)
 
-    def extractId(self,titleList):
+    def extractId(self, titleList):
         title_list = titleList
-        newNoti=[]
+        newNoti = []
         count = 0
         for i in title_list:
             temp = i.find_all('img', alt='새글')
-            if len(temp)== 1:
+            if len(temp) == 1:
                 newNoti.append(count)
             count = count + 1
         return newNoti

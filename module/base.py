@@ -8,13 +8,13 @@ class baseNotifier:
         self.mode = None
         self.root = \
             path.dirname(path.dirname(path.abspath(__file__)))
-        self.checkOnemore = False
+        self.checkOneMore = False
 
     def parse_title(self, target, findAllIndex):
-        if self.mode=='CS':
-            para=0
+        if self.mode == 'CS':
+            para = 0
         else:
-            para=1
+            para = 1
 
         try:
             source = target[findAllIndex]
@@ -22,7 +22,7 @@ class baseNotifier:
             return False
         # print(source.contents[1])  #test
 
-        if para==1:
+        if para == 1:
             try:
                 return source.contents[para]   #in agency,gnu_noti, ERROR occur. When There is No new notice.
             except:
@@ -34,31 +34,16 @@ class baseNotifier:
             except:
                 return False
 
-        # legacy code
-        # ouput = ''
-        # start = 0
-        # end = 0
-        # for pointer in range(len(source) - 1):
-        #     if source[pointer] == '>':
-        #         start = pointer + 1
-        # for pointer in range(start, len(source) - 1):
-        #     if source[pointer] == '<':
-        #         end = pointer
-        #         break
-        #
-        # # Check NULL contents
-        # if start == end or len(source[start:end]) < 8:
-        #     return False
-        # else:
-        #     return source[start:end]
+    def run(self):
+        pass
 
     def check(self):
-        if self.checkOnemore == True:
+        if self.checkOneMore is True:
             return
 
         sleep(10)
         print('Checking another ID')
-        self.checkOnemore = True
+        self.checkOneMore = True
         self.id = self.id + 1
         self.run()
 
@@ -70,7 +55,7 @@ class baseNotifier:
         try:
             file = open(path, 'r')
         except:
-            print('ERROR: There is no last noti data (\source\last_cs, last_gnu, last_agency)')
+            print('ERROR: There is no last noti data in source directory')
             exit()
 
         loaded_value = file.readline()
