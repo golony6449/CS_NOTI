@@ -7,7 +7,7 @@ from module import cs_noti, gnu_noti, agency_noti
 def main():
     init_secret()
 
-    interval = 10
+    interval = init()
     option = mode_select()
 
     if option == 'all':
@@ -108,6 +108,19 @@ def init_secret():
         except FileNotFoundError:
             print("ERROR: Could not fount TELEGRAM API Secret")
             exit(1)
+
+
+def init():
+    import os
+
+    try:
+        param = os.environ["DEBUG"]
+        if param == "True":
+            print("DEBUG Mode Enabled")
+            return 10
+    except KeyError:
+        print("PRODUCTION Mode Enabled")
+        return 1800
 
 
 if __name__ == '__main__':
