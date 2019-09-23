@@ -7,6 +7,7 @@ from module import short_url
 from bs4 import BeautifulSoup
 
 from module import tele_api
+from module import firebase
 
 
 class agencyNotification(base.baseNotifier):
@@ -45,6 +46,9 @@ class agencyNotification(base.baseNotifier):
             short = short_url.makeShort(url)
             tele = tele_api.Telegram(self.channel)
             tele.notification(noti_title, short)
+
+            firebase.register_new_noti('기관공지', noti_title, short)
+
             print('AGENCY_NOTI: NEW NOTIFICATION. ID:', self.id)
             self.id += 1
             self.save_id()

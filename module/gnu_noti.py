@@ -7,6 +7,7 @@ from module import short_url
 from bs4 import BeautifulSoup
 
 from module import tele_api
+from module import firebase
 
 
 class gnuNotification(base.baseNotifier):
@@ -46,6 +47,9 @@ class gnuNotification(base.baseNotifier):
             short = short_url.makeShort(url)
             tele = tele_api.Telegram(self.channel)
             tele.notification(noti_title, short)
+
+            firebase.register_new_noti('HOT NEWS', noti_title, short)
+
             print('GNU_NOTI: NEW NOTIFICATION. ID:', self.id)
             self.id += 1
             self.save_id()
