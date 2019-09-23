@@ -14,11 +14,24 @@ def register_new_noti(category, title, url):
 
     try:
         _ = os.environ['DEBUG']
-        new_docu = db.collection('dev').document()
+        id_docu = db.collection('environ').document('dev_id')
+        id = id_docu.get().to_dict()['id']
+
+        new_docu = db.collection('dev').document(str(id))
+        id_docu.update({
+            'id': id + 1
+        })
     except KeyError:
-        new_docu = db.collection('mix').document()
+        id_docu = db.collection('environ').document('dev_id')
+        id = id_docu.get().to_dict()['id']
+
+        new_docu = db.collection('mix').document(str(id))
+        id_docu.update({
+            'id': id + 1
+        })
 
     new_docu.set({
+        'id': id,
         'category': category,
         'title': title,
         'url': url
