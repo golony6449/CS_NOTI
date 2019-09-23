@@ -11,9 +11,15 @@ db = firestore.client()
 
 
 def register_new_noti(category, title, url):
-  new_docu = db.collection('dev').document()
-  new_docu.set({
-    'category': category,
-    'title': title,
-    'url': url
-  })
+
+    try:
+        _ = os.environ['DEBUG']
+        new_docu = db.collection('dev').document()
+    except KeyError:
+        new_docu = db.collection('mix').document()
+
+    new_docu.set({
+        'category': category,
+        'title': title,
+        'url': url
+    })
