@@ -43,12 +43,13 @@ class gnuNotification(base.baseNotifier):
             self.check()
 
         else:
-            noti_title = '[HOT NEWS]\n' + noti_title
+            formated_title = '[HOT NEWS]\n' + noti_title
             short = short_url.makeShort(url)
             tele = tele_api.Telegram(self.channel)
-            tele.notification(noti_title, short)
+            tele.notification(formated_title, short)
 
             firebase.register_new_noti('HOT NEWS', noti_title, short)
+            firebase.send_notification('HOW NEWS', noti_title)
 
             print('GNU_NOTI: NEW NOTIFICATION. ID:', self.id)
             self.id += 1

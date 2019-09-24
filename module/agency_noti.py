@@ -42,12 +42,13 @@ class agencyNotification(base.baseNotifier):
             self.check()
 
         else:
-            noti_title = '[기관공지]\n' + noti_title
+            formated_title = '[기관공지]\n' + noti_title
             short = short_url.makeShort(url)
             tele = tele_api.Telegram(self.channel)
-            tele.notification(noti_title, short)
+            tele.notification(formated_title, short)
 
             firebase.register_new_noti('기관공지', noti_title, short)
+            firebase.send_notification('기관공지', noti_title)
 
             print('AGENCY_NOTI: NEW NOTIFICATION. ID:', self.id)
             self.id += 1
