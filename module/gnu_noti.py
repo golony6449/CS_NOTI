@@ -49,7 +49,7 @@ class gnuNotification(base.baseNotifier):
             tele.notification(formated_title, short)
 
             firebase.register_new_noti('HOT NEWS', noti_title, short)
-            firebase.send_notification('HOW NEWS', noti_title)
+            firebase.send_notification('HOT NEWS', noti_title)
 
             print('GNU_NOTI: NEW NOTIFICATION. ID:', self.id)
             self.id += 1
