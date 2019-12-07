@@ -87,3 +87,14 @@ def send_notification(title, body):
         message = messaging.Message(notification=noti, topic=topics)
         response = messaging.send(message)
         print("{}: Send Notification Successfully".format(t))
+
+
+def migration():
+    mix_collection = db.collection("mix")
+    docs = mix_collection.stream()
+
+    for d in docs:
+        dict_data = d.to_dict()
+        print(u'{} => {} 처리중'.format(d.id, dict_data))
+
+        register_new_noti(dict_data['category'], dict_data['title'], dict_data['url'])
