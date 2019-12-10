@@ -84,7 +84,7 @@ def send_notification(title, body):
     noti = messaging.Notification(title='GNU-NOTI ({})'.format(title), body=body)
 
     for t in topics:
-        message = messaging.Message(notification=noti, topic=topics)
+        message = messaging.Message(notification=noti, topic=t)
         response = messaging.send(message)
         print("{}: Send Notification Successfully".format(t))
 
