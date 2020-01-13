@@ -73,7 +73,8 @@ def send_notification(title, body):
         _ = os.environ['DEBUG']
         topics.append('dev')
     except KeyError:
-        topics.append('mix')
+        # 더 이상 mix 채널 사용 안함
+        # topics.append('mix')
 
         if title == 'HOT NEWS':
             topics.append('gnu')
