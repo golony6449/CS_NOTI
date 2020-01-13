@@ -21,7 +21,7 @@ class Telegram():
         data={'chat_id':self.ch_id,'text':text}
         socket=requests.post(url=url+self.api_key+'/sendMessage',data=data)
         if (socket.status_code != 200):
-            print("error Occored (Telegram): " + str(socket.status_code))
+            print("error Occored (Telegram): " + str(socket.status_code) + socket.text)
         socket.close()
 
     def notification(self,text='',path=''):
