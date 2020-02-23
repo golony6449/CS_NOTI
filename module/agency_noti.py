@@ -39,7 +39,7 @@ class agencyNotification(base.baseNotifier):
 
         if noti_title is False:
             print('AGENCY_NOTI: There is no notification. ID:', self.id, datetime.now())
-            self.check()
+            self.check(soup)
 
         else:
             formated_title = '[기관공지]\n' + noti_title

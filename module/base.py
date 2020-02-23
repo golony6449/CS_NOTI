@@ -37,11 +37,23 @@ class baseNotifier:
     def run(self):
         pass
 
-    def check(self):
+    def check(self, bs4_obj):
+        sleep(10)
         if self.checkOneMore is True:
             return
 
-        sleep(10)
+        # 글이 삭제된 경우 예외처리
+        script_tag_list = bs4_obj.find_all('script')
+
+        for idx, tag in enumerate(script_tag_list):
+            # print(idx, '번 확인중', tag.text)
+            if "권한" in tag.text:
+                print(self.id, '번 글은 삭제되었습니다.')
+                self.id += 1
+                self.save_id()
+                return
+
+        # 글 번호를 1개 건너 뛰는 경우 예외처리
         print('Checking another ID')
         self.checkOneMore = True
         self.id = self.id + 1
@@ -60,3 +72,6 @@ class baseNotifier:
 
         loaded_value = file.readline()
         return int(loaded_value)
+
+    def save_id(self):
+        pass
