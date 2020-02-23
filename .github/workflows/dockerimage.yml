@@ -23,10 +23,10 @@ jobs:
 #        # Password for Docker registry
 #        password: ${{secrets.DOCKER_PASSWORD}}
 
-     - name: Docker Image Push
-       run: |
-         docker login --username ${{secrets.DOCKER_ID}} --password ${{secrets.DOCKER_PASSWORD}}
-         docker push ${{secrets.DOCKER_ID}}/${{secrets.DOCKER_REPO_NAME}}:${{github.sha}}
+    - name: Docker Image Push
+      run: |
+       docker login --username ${{secrets.DOCKER_ID}} --password ${{secrets.DOCKER_PASSWORD}}
+       docker push ${{secrets.DOCKER_ID}}/${{secrets.DOCKER_REPO_NAME}}:${{github.sha}}
 
       
        
