@@ -5,17 +5,16 @@ on: [push]
 jobs:
 
   build:
-    name: build_docker_image
+    name: Build & Push Docker Image
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build Image
-      if: github.ref == 'refs/heads/master'
       run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_ID}}/${{secrets.DOCKER_REPO_NAME}}:latest --tag ${{secrets.DOCKER_ID}}/${{secrets.DOCKER_REPO_NAME}}:${{github.sha}}
 
     - name: Image Push
-      if: github.ref == 'refs/heads/master'
       run: |
         docker login --username ${{secrets.DOCKER_ID}} --password ${{secrets.DOCKER_PASSWORD}}
         docker push ${{secrets.DOCKER_ID}}/${{secrets.DOCKER_REPO_NAME}}:${{github.sha}}
