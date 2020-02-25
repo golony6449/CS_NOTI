@@ -40,7 +40,7 @@ class gnuNotification(base.baseNotifier):
 
         if noti_title is False:
             print('GNU_NOTI: There is no notification. ID:', self.id, datetime.now())
-            self.check()
+            self.check(soup)
 
         else:
             formated_title = '[HOT NEWS]\n' + noti_title
