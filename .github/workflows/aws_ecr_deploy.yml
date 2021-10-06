@@ -24,11 +24,13 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploy to Amazon ECS
+name: Build Image & Push Image to ECR
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - master
+      - add-github-action
 
 env:
   AWS_REGION: AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
