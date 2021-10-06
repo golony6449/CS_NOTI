@@ -1,4 +1,5 @@
 ## Programming by Golony(Park_seong_heum)
+![workflow](https://github.com/golony6449/CS_NOTI/actions/workflows/aws_ecr_deploy.yml/badge.svg)
 ## CS_NOTI
 
 This program will get information from cs.gnu.ac.kr,gnu.ac.kr and send to your phone via TELEGRAM
