@@ -42,9 +42,6 @@ jobs:
     environment: production
 
     steps:
-    - name: Test
-      run: echo "$ECR_REPOSITORY"
-
     - name: Checkout
       uses: actions/checkout@v2
 
