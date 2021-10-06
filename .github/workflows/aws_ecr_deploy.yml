@@ -32,6 +32,9 @@ on:
       - master
       - add-github-action
 
+env:
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+
 jobs:
   deploy:
     name: Deploy
@@ -40,7 +43,7 @@ jobs:
 
     steps:
     - name: Test
-      run: echo "$AWS_REGION"
+      run: echo "$ECR_REPOSITORY"
 
     - name: Checkout
       uses: actions/checkout@v2
