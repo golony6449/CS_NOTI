@@ -14,14 +14,19 @@ except ValueError:
 db = firestore.client()
 
 
-def register_new_noti(category, title, url):
-    ch = None
+def _get_ch_id(category):
     if category == '기관공지':
         ch = 'agency'
     elif category == 'HOT NEWS':
         ch = 'gnu'
+    elif category == '장학':
+        ch = 'scholarship'
     else:
         raise Exception("Wrong Category Parameter")
+
+
+def register_new_noti(category, title, url):
+    ch = _get_ch_id(category)
 
     try:
         _ = os.environ['DEBUG']
@@ -50,11 +55,10 @@ def register_new_noti(category, title, url):
     })
 
     # 채널에 따른 추가
-    id_target_ch_docu = db.collection('environ').document(ch)
-    target_ch_id = id_target_ch_docu.get().to_dict()['id']
-
+    target_ch_id = get_last_noti_id(category)
     new_target_ch_docu = db.collection(ch).document(str(target_ch_id))
-    id_target_ch_docu.update({
+
+    db.collection('environ').document(ch).update({
         'id': target_ch_id + 1
     })
 
@@ -99,3 +103,12 @@ def migration():
         print(u'{} => {} 처리중'.format(d.id, dict_data))
 
         register_new_noti(dict_data['category'], dict_data['title'], dict_data['url'])
+
+
+def get_last_noti_id(category):
+    ch = _get_ch_id(category)
+    id_target_ch_docu = db.collection('environ').document(ch)
+    target_ch_id = id_target_ch_docu.get().to_dict()['id']
+
+    return target_ch_id
+

@@ -1,8 +1,19 @@
 from os import path
 from time import sleep
 
+import requests
+import bs4
+from bs4 import BeautifulSoup
 
-class baseNotifier:
+from module import firebase
+
+
+class NotifierInterface:
+    def run(self):
+        pass
+
+
+class baseNotifier(NotifierInterface):
     def __init__(self):
         self.url = ''
         self.mode = None
@@ -75,3 +86,51 @@ class baseNotifier:
 
     def save_id(self):
         pass
+
+
+class BaseNotifierV2(NotifierInterface):
+    url = None
+    category = None
+
+    def __init__(self):
+        if self.url is None or self.category is None:
+            raise RuntimeError('parameter(url, firestore_collection_id) is Empty')
+
+    def run(self):
+        items = self.parse_data()
+        last_noti_id = firebase.get_last_noti_id(self.category)
+
+        list_new_noti = []
+
+        for item in items:
+            item_id = self.get_noti_id(item)
+
+            if item_id > last_noti_id:
+                data = {
+                    'title': item.find('title').text,
+                    'url': item.find('link').text
+                }
+
+                list_new_noti.insert(0, data)
+
+        # Firestore 저장
+        for noti in list_new_noti:
+            firebase.register_new_noti(self.category, noti['title'], noti['url'])
+
+        # TODO Push 발송
+
+    def parse_data(self):
+        raw_xml_data = requests.get(self.url)
+        soup = BeautifulSoup(raw_xml_data.text, 'xml')
+
+        return soup.find('channel').find_all('item')
+
+    def get_noti_id(self, bs4_item_tag: bs4.element.Tag):
+        noti_url = bs4_item_tag.find('link').get_text()
+        url_params = [param for param in noti_url.split('?')[1].split('&')]
+
+        for p in url_params:
+            if 'nttSn' in p:
+                return int(p.split('=')[1])
+
+        return None
