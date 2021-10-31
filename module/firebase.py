@@ -114,3 +114,9 @@ def get_last_noti_id(category):
 
     return target_ch_id
 
+
+def get_last_remote_id(category):
+    ch = _get_ch_id(category)
+    doc_last_remote_id = db.collection('environ').document(ch)
+    last_remote_id = doc_last_remote_id.get().to_dict()[ch]
+    return last_remote_id
