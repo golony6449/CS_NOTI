@@ -15,14 +15,16 @@ db = firestore.client()
 
 
 def _get_ch_id(category):
-    if category == '기관공지':
+    if category == '기관공지' or category == 'agency':
         ch = 'agency'
-    elif category == 'HOT NEWS':
+    elif category == 'HOT NEWS' or category == 'gnu':
         ch = 'gnu'
-    elif category == '장학':
+    elif category == '장학' or category == 'scholarship':
         ch = 'scholarship'
     else:
         raise Exception("Wrong Category Parameter")
+
+    return ch
 
 
 def register_new_noti(category, title, url):
