@@ -93,31 +93,44 @@ class BaseNotifierV2(NotifierInterface):
     category = None
 
     def __init__(self):
+        pass
+
+    def is_valid(self):
         if self.url is None or self.category is None:
-            raise RuntimeError('parameter(url, firestore_collection_id) is Empty')
+            return False
+
+        return True
 
     def run(self):
+        if self.is_valid() is False:
+            raise RuntimeError('parameter(url, firestore_collection_id) is Empty')
+
         items = self.parse_data()
-        last_noti_id = firebase.get_last_noti_id(self.category)
+        last_remote_id = firebase.get_last_remote_id(self.category)     # 지금까지 처리한 공홈의 게시글 ID
+        new_last_remote_id = 0                                          # 현재 처리한 게시글 중 최종 ID (이 값으로 Firestore 값 갱신)
 
         list_new_noti = []
 
         for item in items:
             item_id = self.get_noti_id(item)
 
-            if item_id > last_noti_id:
+            if item_id > last_remote_id:
                 data = {
                     'title': item.find('title').text,
                     'url': item.find('link').text
                 }
 
                 list_new_noti.insert(0, data)
+                new_last_remote_id = max(item_id, new_last_remote_id)
 
         # Firestore 저장
         for noti in list_new_noti:
             firebase.register_new_noti(self.category, noti['title'], noti['url'])
 
         # TODO Push 발송
+
+        # Firestore > environ > last_remote_id 갱신
+        firebase.update_last_remote_id(self.category, new_last_remote_id)
 
     def parse_data(self):
         raw_xml_data = requests.get(self.url)
