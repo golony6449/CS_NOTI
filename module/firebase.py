@@ -117,7 +117,7 @@ def get_last_noti_id(category):
 
 def get_last_remote_id(category):
     ch = _get_ch_id(category)
-    doc_last_remote_id = db.collection('environ').document(ch)
+    doc_last_remote_id = db.collection('environ').document('last_remote_id')
     last_remote_id = doc_last_remote_id.get().to_dict()[ch]
     return last_remote_id
 
@@ -127,6 +127,6 @@ def update_last_remote_id(category, id):
     id_docu = db.collection('environ').document('last_remote_id')
 
     doc = id_docu.get().to_dict()
-    doc[ch] = doc[ch] + 1
+    doc[ch] = id
 
     id_docu.update(doc)
