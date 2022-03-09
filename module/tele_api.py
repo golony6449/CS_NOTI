@@ -4,8 +4,11 @@ import os
 
 
 class Telegram:
-    def __init__(self, to_which):
-        self.ch_id = to_which
+    def __init__(self, to_witch: str):
+        if to_witch is None:
+            raise RuntimeError('to_witch is required')
+
+        self.ch_id = to_witch
 
         try:
             path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
