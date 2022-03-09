@@ -13,7 +13,7 @@ class NotifierInterface:
         pass
 
 
-class baseNotifier(NotifierInterface):
+class BaseNotifier(NotifierInterface):
     def __init__(self):
         self.url = ''
         self.mode = None

@@ -10,7 +10,7 @@ from module import tele_api
 from module import firebase
 
 
-class gnuNotification(base.baseNotifier):
+class GnuNotification(base.BaseNotifier):
     def __init__(self):
         super().__init__()
 

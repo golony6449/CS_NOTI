@@ -4,25 +4,25 @@ import sys
 
 def run(option='all'):
     if option == 'all':
-        gnuModule = gnu_noti.gnuNotification()
+        gnuModule = gnu_noti.GnuNotification()
         gnuModule.run()
 
-        csModule = cs_noti.csNotification()
+        csModule = cs_noti.CsNotification()
         csModule.run()
 
-        agencyModule = agency_noti.agencyNotification()
+        agencyModule = agency_noti.AgencyNotification()
         agencyModule.run()
 
     elif option == 'cs':
-        csModule = cs_noti.csNotification()
+        csModule = cs_noti.CsNotification()
         csModule.run()
 
     elif option == 'gnu':
-        gnuModule = gnu_noti.gnuNotification()
+        gnuModule = gnu_noti.GnuNotification()
         gnuModule.run()
 
     elif option == 'agency':
-        agencyModule = agency_noti.agencyNotification()
+        agencyModule = agency_noti.AgencyNotification()
         agencyModule.run()
 
 

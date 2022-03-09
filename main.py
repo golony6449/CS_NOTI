@@ -12,33 +12,33 @@ def main():
 
     if option == 'all':
         while True:
-            gnuModule = gnu_noti.gnuNotification()
+            gnuModule = gnu_noti.GnuNotification()
             gnuModule.run()
 
             # TODO: Bug fix후 주석해제
             # csModule = cs_noti.csNotification()
             # csModule.run()
 
-            agencyModule = agency_noti.agencyNotification()
+            agencyModule = agency_noti.AgencyNotification()
             agencyModule.run()
 
             time.sleep(interval)
 
     elif option == 'cs':
         while True:
-            csModule = cs_noti.csNotification()
+            csModule = cs_noti.CsNotification()
             csModule.run()
             time.sleep(interval)
 
     elif option == 'gnu':
         while True:
-            gnuModule = gnu_noti.gnuNotification()
+            gnuModule = gnu_noti.GnuNotification()
             gnuModule.run()
             time.sleep(interval)
 
     elif option == 'agency':
         while True:
-            agencyModule = agency_noti.agencyNotification()
+            agencyModule = agency_noti.AgencyNotification()
             agencyModule.run()
             time.sleep(interval)
 

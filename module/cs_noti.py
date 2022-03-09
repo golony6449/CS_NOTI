@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from module import tele_api
 
 
-class csNotification(base.baseNotifier):
+class CsNotification(base.BaseNotifier):
     def __init__(self):
         super().__init__()
 

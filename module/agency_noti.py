@@ -10,7 +10,7 @@ from module import tele_api
 from module import firebase
 
 
-class agencyNotification(base.baseNotifier):
+class AgencyNotification(base.BaseNotifier):
     def __init__(self):
         super().__init__()
 
