@@ -88,23 +88,15 @@ class BaseNotifier(NotifierInterface):
         pass
 
 
-class BaseNotifierV2(NotifierInterface):
+class RssBaseNotifier(NotifierInterface):
     url = None
     category = None
 
     def __init__(self):
-        pass
-
-    def is_valid(self):
         if self.url is None or self.category is None:
-            return False
-
-        return True
+            raise RuntimeError('url, category required')
 
     def run(self):
-        if self.is_valid() is False:
-            raise RuntimeError('parameter(url, firestore_collection_id) is Empty')
-
         items = self.parse_data()
         last_remote_id = firebase.get_last_remote_id(self.category)     # 지금까지 처리한 공홈의 게시글 ID
         new_last_remote_id = 0                                          # 현재 처리한 게시글 중 최종 ID (이 값으로 Firestore 값 갱신)
@@ -117,7 +109,7 @@ class BaseNotifierV2(NotifierInterface):
             if item_id > last_remote_id:
                 data = {
                     'title': item.find('title').text,
-                    'url': item.find('link').text
+                    'url': item.find('link').text       # TODO 단축 URL 변환 API 적용
                 }
 
                 list_new_noti.insert(0, data)
@@ -136,14 +128,14 @@ class BaseNotifierV2(NotifierInterface):
         raw_xml_data = requests.get(self.url)
         soup = BeautifulSoup(raw_xml_data.text, 'xml')
 
-        return soup.find('channel').find_all('item')
+        return list(soup.find_all('item'))
 
     def get_noti_id(self, bs4_item_tag: bs4.element.Tag):
         noti_url = bs4_item_tag.find('link').get_text()
-        url_params = [param for param in noti_url.split('?')[1].split('&')]
+        url_params = [param for param in noti_url.split('?')[1].split('&')]     # 쿼리 파라메터 추출
 
         for p in url_params:
             if 'nttSn' in p:
                 return int(p.split('=')[1])
 
-        return None
+        raise ValueError('Could not find post number (sttSn) in Link')
