@@ -27,7 +27,7 @@ def _get_ch_id(category):
     return ch
 
 
-def register_new_noti(category, title, url):
+def register_new_noti(category: str, title: str, url: str):
     ch = _get_ch_id(category)
 
     try:
