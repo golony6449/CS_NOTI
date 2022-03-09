@@ -19,7 +19,7 @@ def load():
     return ID, SECRET
 
 
-def makeShort(target):
+def make_short(target):
     ID, SECRET = load()
     header = {'X-Naver-Client-Id': ID, 'X-Naver-Client-Secret': SECRET}
     naver = 'https://openapi.naver.com/v1/util/shorturl'

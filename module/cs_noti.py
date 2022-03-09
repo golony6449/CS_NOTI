@@ -41,7 +41,7 @@ class CsNotification(base.BaseNotifier):
         else:
             for title in titleList:
                 # print(title['title'])
-                short=short_url.makeShort(url+'&'+title['url'][1:]) # String slice for delete '?' character
+                short=short_url.make_short(url + '&' + title['url'][1:]) # String slice for delete '?' character
 
                 tele = tele_api.Telegram(self.channel)
                 tele.notification(title['title'], short)
@@ -77,7 +77,7 @@ class CsNotification(base.BaseNotifier):
     def send(self, title, url):
         tele = tele_api.Telegram('@Testing77')  # Should Edit at live server
 
-        short = short_url.makeShort(url)
+        short = short_url.make_short(url)
         tele.notification(title[i], short)
         print('CS_NOTI: NEW NOTIFICATION. ID:', self.id)
         self.id += 1

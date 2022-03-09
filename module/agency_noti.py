@@ -43,7 +43,7 @@ class AgencyNotification(base.BaseNotifier):
 
         else:
             formated_title = '[기관공지]\n' + noti_title
-            short = short_url.makeShort(url)
+            short = short_url.make_short(url)
             tele = tele_api.Telegram(self.channel)
             tele.notification(formated_title, short)
 

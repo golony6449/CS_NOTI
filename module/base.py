@@ -5,7 +5,7 @@ import requests
 import bs4
 from bs4 import BeautifulSoup
 
-from module import firebase
+from module import firebase, tele_api, short_url
 
 
 class NotifierInterface:
@@ -117,9 +117,16 @@ class RssBaseNotifier(NotifierInterface):
 
         # Firestore 저장
         for noti in list_new_noti:
-            firebase.register_new_noti(self.category, noti['title'], noti['url'])
+            firebase.register_new_noti(self.category, noti['title'], short_url.make_short(noti['url']))
 
         # TODO Push 발송
+
+        # Telegram 채널 전송
+        telegram = tele_api.Telegram('@Testing77')      # TODO 개발용 체널
+
+        for noti in list_new_noti:
+            print('send to telegram: ', noti['title'])
+            telegram.send('[{}]\n'.format(self.category) + noti['title'] + '\n' + short_url.make_short(noti['url']))
 
         # Firestore > environ > last_remote_id 갱신
         firebase.update_last_remote_id(self.category, new_last_remote_id)

@@ -44,7 +44,7 @@ class GnuNotification(base.BaseNotifier):
 
         else:
             formated_title = '[HOT NEWS]\n' + noti_title
-            short = short_url.makeShort(url)
+            short = short_url.make_short(url)
             tele = tele_api.Telegram(self.channel)
             tele.notification(formated_title, short)
 
