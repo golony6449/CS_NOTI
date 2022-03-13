@@ -14,22 +14,7 @@ except ValueError:
 db = firestore.client()
 
 
-def _get_ch_id(category):
-    if category == '기관공지' or category == 'agency':
-        ch = 'agency'
-    elif category == 'HOT NEWS' or category == 'gnu':
-        ch = 'gnu'
-    elif category == '장학' or category == 'scholarship':
-        ch = 'scholarship'
-    else:
-        raise Exception("Wrong Category Parameter")
-
-    return ch
-
-
 def register_new_noti(category: str, title: str, url: str):
-    ch = _get_ch_id(category)
-
     try:
         _ = os.environ['DEBUG']
         id_docu = db.collection('environ').document('dev_id')
@@ -58,9 +43,9 @@ def register_new_noti(category: str, title: str, url: str):
 
     # 채널에 따른 추가
     target_ch_id = get_last_noti_id(category)
-    new_target_ch_docu = db.collection(ch).document(str(target_ch_id))
+    new_target_ch_docu = db.collection(category).document(str(target_ch_id))
 
-    db.collection('environ').document(ch).update({
+    db.collection('environ').document(category).update({
         'id': target_ch_id + 1
     })
 
@@ -107,26 +92,23 @@ def migration():
         register_new_noti(dict_data['category'], dict_data['title'], dict_data['url'])
 
 
-def get_last_noti_id(category):
-    ch = _get_ch_id(category)
-    id_target_ch_docu = db.collection('environ').document(ch)
+def get_last_noti_id(category: str):
+    id_target_ch_docu = db.collection('environ').document(category)
     target_ch_id = id_target_ch_docu.get().to_dict()['id']
 
     return target_ch_id
 
 
-def get_last_remote_id(category):
-    ch = _get_ch_id(category)
+def get_last_remote_id(category: str):
     doc_last_remote_id = db.collection('environ').document('last_remote_id')
-    last_remote_id = doc_last_remote_id.get().to_dict()[ch]
+    last_remote_id = doc_last_remote_id.get().to_dict()[category]
     return last_remote_id
 
 
-def update_last_remote_id(category, id):
-    ch = _get_ch_id(category)
+def update_last_remote_id(category: str, id: int):
     id_docu = db.collection('environ').document('last_remote_id')
 
     doc = id_docu.get().to_dict()
-    doc[ch] = id
+    doc[category] = id
 
     id_docu.update(doc)
