@@ -10,7 +10,7 @@ from module import tele_api
 from module import firebase
 
 
-class AgencyNotification(base.BaseNotifier):
+class AgencyNotificationLegacy(base.BaseNotifier):
     def __init__(self):
         super().__init__()
 
@@ -61,3 +61,9 @@ class AgencyNotification(base.BaseNotifier):
     def load_id(self):
         path = self.root + '/source/last_agency'
         self.id = super().load(path)
+
+
+class AgencyNotification(base.RssBaseNotifier):
+    url = 'http://www.gnu.ac.kr/main/na/ntt/selectRssFeed.do?mi=1126&bbsId=1028'
+    category = '기관'
+    firebase_ch = 'agency'

@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from module import tele_api
 
 
-class CsNotification(base.BaseNotifier):
+class CsNotificationLegacy(base.BaseNotifier):
     def __init__(self):
         super().__init__()
 
@@ -107,3 +107,9 @@ class CsNotification(base.BaseNotifier):
                 newNoti.append(count)
             count = count + 1
         return newNoti
+
+
+class CsNotification(base.RssBaseNotifier):
+    url = 'http://www.gnu.ac.kr/cs/na/ntt/selectRssFeed.do?mi=6694&bbsId=2351'
+    category = '컴퓨터과학과'
+    firebase_ch = 'cs'

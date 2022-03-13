@@ -10,7 +10,7 @@ from module import tele_api
 from module import firebase
 
 
-class GnuNotification(base.BaseNotifier):
+class GnuNotificationLegacy(base.BaseNotifier):
     def __init__(self):
         super().__init__()
 
@@ -62,3 +62,9 @@ class GnuNotification(base.BaseNotifier):
     def load_id(self):
         path = self.root + '/source/last_gnu'
         self.id = super().load(path)
+
+
+class GnuNotification(base.RssBaseNotifier):
+    url = 'http://www.gnu.ac.kr/main/na/ntt/selectRssFeed.do?mi=1127&bbsId=1029'
+    category = '학사'
+    firebase_ch = 'gnu'
