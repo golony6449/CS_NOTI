@@ -91,15 +91,16 @@ class BaseNotifier(NotifierInterface):
 class RssBaseNotifier(NotifierInterface):
     url = None
     category = None
+    firebase_ch = None
 
     def __init__(self):
-        if self.url is None or self.category is None:
+        if self.url is None or self.category is None or self.firebase_ch is None:
             raise RuntimeError('url, category required')
 
     def run(self):
         items = self.parse_data()
-        last_remote_id = firebase.get_last_remote_id(self.category)     # 지금까지 처리한 공홈의 게시글 ID
-        new_last_remote_id = 0                                          # 현재 처리한 게시글 중 최종 ID (이 값으로 Firestore 값 갱신)
+        last_remote_id = firebase.get_last_remote_id(self.firebase_ch)     # 지금까지 처리한 공홈의 게시글 ID
+        new_last_remote_id = last_remote_id                                # 현재 처리한 게시글 중 최종 ID (이 값으로 Firestore 값 갱신)
 
         list_new_noti = []
 
@@ -107,9 +108,11 @@ class RssBaseNotifier(NotifierInterface):
             item_id = self.get_noti_id(item)
 
             if item_id > last_remote_id:
+                print('item_id: ', item_id, 'last_remote_id: ', last_remote_id)
                 data = {
                     'title': item.find('title').text,
-                    'url': item.find('link').text       # TODO 단축 URL 변환 API 적용
+                    'url': item.find('link').text,
+                    'short_url': short_url.make_short(item.find('link').text),
                 }
 
                 list_new_noti.insert(0, data)
@@ -117,7 +120,7 @@ class RssBaseNotifier(NotifierInterface):
 
         # Firestore 저장
         for noti in list_new_noti:
-            firebase.register_new_noti(self.category, noti['title'], short_url.make_short(noti['url']))
+            firebase.register_new_noti(self.firebase_ch, noti['title'], noti['short_url'])
 
         # TODO Push 발송
 
@@ -126,10 +129,10 @@ class RssBaseNotifier(NotifierInterface):
 
         for noti in list_new_noti:
             print('send to telegram: ', noti['title'])
-            telegram.send('[{}]\n'.format(self.category) + noti['title'] + '\n' + short_url.make_short(noti['url']))
+            telegram.send('[{}]\n'.format(self.category) + noti['title'] + '\n' + noti['short_url'])
 
         # Firestore > environ > last_remote_id 갱신
-        firebase.update_last_remote_id(self.category, new_last_remote_id)
+        firebase.update_last_remote_id(self.firebase_ch, new_last_remote_id)
 
     def parse_data(self):
         raw_xml_data = requests.get(self.url)
